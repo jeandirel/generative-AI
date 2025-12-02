@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport Labo 1</title>
+    
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 210mm;
+        margin: 0 auto;
+        padding: 20mm;
+        background-color: white;
+    }
+    h1, h2, h3 {
+        color: #2c3e50;
+    }
+    h1 {
+        border-bottom: 2px solid #2c3e50;
+        padding-bottom: 10px;
+    }
+    h2 {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+        margin-top: 30px;
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 20px auto;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 20px 0;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+    }
+    th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    blockquote {
+        border-left: 4px solid #3498db;
+        margin: 0;
+        padding-left: 15px;
+        color: #555;
+        background-color: #f0f7fb;
+        padding: 10px 15px;
+        border-radius: 0 4px 4px 0;
+    }
+    code {
+        background-color: #f4f4f4;
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-family: Consolas, Monaco, 'Andale Mono', monospace;
+    }
+    @media print {
+        body {
+            padding: 0;
+            max-width: 100%;
+        }
+        @page {
+            margin: 20mm;
+        }
+    }
+</style>
+
+</head>
+<body>
+    <h1>Rapport de Labo 1 : GAN vs VAE</h1>
+<p><strong>Nom de l'étudiant :</strong> Jean Direl Nze Kabeyene
+<strong>Cours :</strong> Generative AI</p>
+<hr />
+<h2>1. Résultats Visuels</h2>
+<h3>A. Échantillons GAN</h3>
+<p><strong>Meilleur Résultat (Z_DIM=64, LR=0.0002)</strong> :
+<img alt="GAN Best Sample" src="results/results/images/GAN_Z64_LR0.0002_B128.png" /></p>
+<p><em>Comparaison avec un Learning Rate plus faible (LR=0.0001)</em> :
+<img alt="GAN Low LR" src="results/results/images/GAN_Z64_LR0.0001_B128.png" /></p>
+<h3>B. Reconstructions VAE</h3>
+<p><strong>Résultat (Latent=16)</strong> :
+<img alt="VAE Reconstructions" src="results/results/images/VAE_L16_LR0.002_B128.png" /></p>
+<h3>C. Interpolation Latente VAE</h3>
+<p><em>(Note : L'interpolation n'a pas été sauvegardée automatiquement par le script d'automatisation, mais vous pouvez la générer en exécutant le notebook manuellement si nécessaire.)</em></p>
+<hr />
+<h2>2. Comparaison Quantitative (Proxy FID)</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Modèle</th>
+<th style="text-align: left;">Z_DIM/Latent</th>
+<th style="text-align: left;">LR</th>
+<th style="text-align: left;">Batch Size</th>
+<th style="text-align: left;">Epochs</th>
+<th style="text-align: left;">FID (Plus bas = Mieux)</th>
+<th style="text-align: left;">Aperçu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>GAN</strong></td>
+<td style="text-align: left;">32</td>
+<td style="text-align: left;">0.0002</td>
+<td style="text-align: left;">128</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">0.147807</td>
+<td style="text-align: left;"><img alt="GAN Z32" src="results/results/images/GAN_Z32_LR0.0002_B128.png" /></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GAN</strong></td>
+<td style="text-align: left;">64</td>
+<td style="text-align: left;">0.0002</td>
+<td style="text-align: left;">128</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;"><strong>0.06566</strong></td>
+<td style="text-align: left;"><img alt="GAN Z64 Best" src="results/results/images/GAN_Z64_LR0.0002_B128.png" /></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GAN</strong></td>
+<td style="text-align: left;">128</td>
+<td style="text-align: left;">0.0002</td>
+<td style="text-align: left;">128</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">0.079968</td>
+<td style="text-align: left;"><img alt="GAN Z128" src="results/results/images/GAN_Z128_LR0.0002_B128.png" /></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GAN</strong></td>
+<td style="text-align: left;">64</td>
+<td style="text-align: left;">0.0001</td>
+<td style="text-align: left;">128</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">0.115083</td>
+<td style="text-align: left;"><img alt="GAN Low LR" src="results/results/images/GAN_Z64_LR0.0001_B128.png" /></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GAN</strong></td>
+<td style="text-align: left;">64</td>
+<td style="text-align: left;">0.0002</td>
+<td style="text-align: left;">64</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">0.071648</td>
+<td style="text-align: left;"><img alt="GAN Batch 64" src="results/results/images/GAN_Z64_LR0.0002_B64.png" /></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>VAE</strong></td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">0.002</td>
+<td style="text-align: left;">128</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;"><img alt="VAE L8" src="results/results/images/VAE_L8_LR0.002_B128.png" /></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>VAE</strong></td>
+<td style="text-align: left;">16</td>
+<td style="text-align: left;">0.002</td>
+<td style="text-align: left;">128</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;"><img alt="VAE L16" src="results/results/images/VAE_L16_LR0.002_B128.png" /></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>VAE</strong></td>
+<td style="text-align: left;">32</td>
+<td style="text-align: left;">0.002</td>
+<td style="text-align: left;">128</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;"><img alt="VAE L32" src="results/results/images/VAE_L32_LR0.002_B128.png" /></td>
+</tr>
+</tbody>
+</table>
+<p><em>Analyse des Résultats :</em>
+*   <strong>Meilleure configuration GAN</strong> : Z_DIM=64, LR=0.0002, Batch=128 (FID = 0.06566).
+*   <strong>Impact Z_DIM</strong> : 32 est insuffisant (FID élevé), 128 n'apporte pas de gain significatif par rapport à 64 sur ce nombre d'époques.
+*   <strong>Impact LR</strong> : Un LR plus faible (0.0001) ralentit la convergence (FID plus élevé).</p>
+<hr />
+<h2>3. Réflexion et Analyse (Réponses aux questions)</h2>
+<p><strong>Q1 : Quels hyperparamètres ont le plus influencé la stabilité du GAN ?</strong></p>
+<blockquote>
+<p>Le <strong>Learning Rate (LR)</strong> a été critique. Un LR trop élevé (ex: 2e-3) rendait l'entraînement instable (bruit), tandis qu'un LR plus faible (2e-4) a permis une convergence plus douce. La taille du batch (128) a aussi aidé à stabiliser les gradients.</p>
+</blockquote>
+<p><strong>Q2 : Avez-vous observé un "Mode Collapse" ? Qu'est-ce qui a aidé ?</strong></p>
+<blockquote>
+<p>Nous avons observé un début de <strong>mode collapse</strong> : le générateur avait tendance à produire des chiffres très similaires. L'utilisation de la <strong>Hinge Loss</strong> au lieu de la BCE classique a aidé à éviter ce problème en offrant des gradients plus robustes au générateur.</p>
+</blockquote>
+<p><strong>Q3 : Comment la dimension latente (Z_DIM) a-t-elle affecté le VAE ?</strong></p>
+<blockquote>
+<p>Une dimension trop faible (ex: 2) donnait des images très floues car le modèle compressait trop l'information. Une dimension plus élevée (ex: 16 ou 32) a permis des reconstructions plus nettes et détaillées.</p>
+</blockquote>
+<p><strong>Q4 : Une idée pour combiner les avantages des deux (VAE-GAN) ?</strong></p>
+<blockquote>
+<p>On pourrait utiliser le <strong>décodeur du VAE comme générateur du GAN</strong>.
+*   Le VAE apprendrait à structurer l'espace latent (éviter le mode collapse).
+*   Le Discriminateur du GAN forcerait le Décodeur à produire des images plus nettes (réduire le flou du VAE).
+C'est le principe du modèle <strong>VAE-GAN</strong>.</p>
+</blockquote>
+</body>
+</html>
